@@ -1,16 +1,14 @@
-*NOTE:* This file is a template that you can use to create the README for your project. The *TODO* comments below will highlight the information you should be sure to include.
+# Determining Heart Disease
 
-# Your Project Title Here
-
-*TODO:* Write a short introduction to your project.
+Using the [UCI heart disease dataset](https://archive.ics.uci.edu/ml/datasets/heart+Disease), I want to determine if patients have heart disease or not given the features in this dataset, which are detailed below. I used logistic regression to classify and predict, whose hyperparameters are tuned using azure hyperdrive. This was then compared against azure's automl search to identify the most accurate model, which was then operationalized by deploying to ACI with Azure application insights.
 
 ## Project Set Up and Installation
-*OPTIONAL:* If your project has any special installation steps, this is where you should put it. To turn this project into a professional portfolio project, you are encouraged to explain how to set up this project in AzureML.
+First import the [UCI heart disease dataset](https://archive.ics.uci.edu/ml/datasets/heart+Disease) to Azure datasets and name it `uci_heart_disease`. Run all the cells in both the Jupyter notebooks, starting with hyperdrive, which will leverage the `train.py` script. Then, run the automl notebook that will execute automl runs (note that I have a beefy cluster from work, so the parallel runs can be reduced to be cost efficient) and save the best model. It will then use this model to deploy with ACI and test. 
 
 ## Dataset
 
 ### Overview
-*TODO*: Explain about the data you are using and where you got it from.
+I'm using the [UCI heart disease dataset](https://archive.ics.uci.edu/ml/datasets/heart+Disease) 
 
 ### Task
 *TODO*: Explain the task you are going to be solving with this dataset and the features you will be using for it.

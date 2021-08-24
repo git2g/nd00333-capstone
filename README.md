@@ -95,7 +95,4 @@ And application insights also logs model invocations and performance:
 ![appinsights](11.png)
 
 ## Screen Recording
-*TODO* Provide a link to a screen recording of the project in action. Remember that the screencast should demonstrate:
-- A working model
-- Demo of the deployed  model
-- Demo of a sample request sent to the endpoint and its response
+- https://www.screencast.com/t/AmBXh4G3qq

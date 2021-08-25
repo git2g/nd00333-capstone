@@ -65,7 +65,10 @@ In addition, here's the run details of the automl invocation from within the not
 The top regressors turned out to be the number of major vessels (`ca`), chest pain level (`cp`), and thalassemia level (`thal`):
 ![modelexplanations](images/3.png)
 
-The automl run was configured to optimize on `accuracy` (as set for `primary_metric`), with a 15-min `experiment_timeout_minutes`, and 5% of dataset to be use for validation (as specified in `n_cross_validations` attribute), and `featurization` was set to `auto` so that automl run could automatically customize featurization. Finally, enable early stopping was set to true so that we could optimize cloud resources
+The automl run was configured to optimize on `accuracy` (as set for `primary_metric`), with a 15-min `experiment_timeout_minutes`, and 5% of dataset to be use for validation (as specified in `n_cross_validations` attribute), and `featurization` was set to `auto` so that automl run could automatically customize featurization. Finally, enable early stopping was set to true so that we could optimize cloud resources.
+
+Here are additional model metrics for the best model (as indexed on `accuracy`):
+![metrics](images/automl-metrics.png)
 
 The featurization setting could be improved in the future with a `FeaturizationConfig` object with transformer customizations that could've tailored even better automl accuracies. 
 
@@ -77,6 +80,18 @@ A LogisticRegression model was used in `train.py` script to predict the `target`
 The `C` hyperparameter regularizes to apply a penalty to increasing the magnitude of paramter values to reduce overfitting. It's a positive float number and smaller values specify stronger regularization. Meanwhile `max_iter` hyperparameter specifies the maximum number of iterations for the solvers to converge. Finally, number of cpu cores and input data is also passed to train.py as parameters from the notebook when invoked. 
 
 There is also an early termination policy, `Bandit`, with a `10%` slack factor, which specified how much slack is allowed with respect to the best performing training run, and a `evaluation_interval` of `2`, which specifies the frequency for applying the policy, and a `delay_evaluation` set to `5`, which delays the first policy evaluation for `5` intervals. This bandit policy ensures that we are optimizing our compute resources while executing a hyperparameter search and not waste on hyperparameters that won't lead to most accurate models. 
+
+The other configurations that are part of the hyperdrive model are primary_metric, which has been set to `accuracy` so that we evaluate and maximize on accuracy. Total maximum and concurrent runs were set to `20`. 
+
+For parameter search space, I used `RandomParameterSampling` with `uniform` distribution between `0.05` and `0.1` for regularization and a `choice` set for maximum iterations. 
+
+The model with the best (indexed on `accuracy`) parameters and hyperparameters is detailed below:
+```bash
+--input-data 0e51b174-bc8d-447b-8df0-7d9cc315e7be --C 0.09617424833081163 --max_iter 128
+```
+
+which is also depicted in the screenshot below:
+![hyperdrive-2](images/hyperdrive.png)
 
 The hyperparameters that produced the most accurate logistic regression model were: `--C (Regularization Strength)` of `0.09196`, and `--max_iter (Max iterations)` of `128`, resulting in an `accuracy` of `93.4%`. 
 ![hyperdrive-1](images/5.png)
@@ -97,6 +112,7 @@ The model endpoint is also accessible from endpoints table and from any REST cli
 Here's an example invocation from a REST client, resulting in a 200 response with the expected response for `target`:
 ![model-endpoint-invoke](images/10.png)
 
+You can also leverage this python script - `sample-invocation.py` to invoke the endpoint with a sample dataset for input. 
 
 And application insights also logs model invocations and performance:
 ![appinsights](images/11.png)

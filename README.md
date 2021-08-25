@@ -59,6 +59,9 @@ With a somewhat smaller dataset, the automl runs were relatively quick and the g
 as shown below:
 ![automlrun](images/4.png)
 
+In addition, here's the run details of the automl invocation from within the notebook:
+![aml](images/automl-run.png)
+
 The top regressors turned out to be the number of major vessels (`ca`), chest pain level (`cp`), and thalassemia level (`thal`):
 ![modelexplanations](images/3.png)
 
@@ -77,7 +80,9 @@ There is also an early termination policy, `Bandit`, with a `10%` slack factor, 
 
 The hyperparameters that produced the most accurate logistic regression model were: `--C (Regularization Strength)` of `0.09196`, and `--max_iter (Max iterations)` of `128`, resulting in an `accuracy` of `93.4%`. 
 ![hyperdrive-1](images/5.png)
+Here's an additional screenshot of all teh child runs that were executed by hyperdrive
 ![hyperdrive-2](images/6.png)
+The hyperparameters that lead to the most accurate model's confusion matrix is shown below
 ![confusion_matrix](images/7.png)
 
 This can be improved if we increase the number of runs (especially in situations like mine where I have a beefy cluster from work) and also try out other metrics for primary metric.
@@ -88,6 +93,8 @@ The best model from automl is deployed using azureml sdk with applicaiton insigh
 
 The model endpoint is also accessible from endpoints table and from any REST client:
 ![model-endpoint](images/9.png)
+
+Here's an example invocation from a REST client, resulting in a 200 response with the expected response for `target`:
 ![model-endpoint-invoke](images/10.png)
 
 

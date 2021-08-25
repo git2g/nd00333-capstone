@@ -70,6 +70,17 @@ The automl run was configured to optimize on `accuracy` (as set for `primary_met
 Here are additional model metrics for the best model (as indexed on `accuracy`):
 ![metrics](images/automl-metrics.png)
 
+The parameters for the best model are summarized below (as retrieved by executing `remote_run.get_output()`):
+```
+ LogisticRegression(C=51.79474679231202, class_weight=None,
+                    dual=False, fit_intercept=True,
+                    intercept_scaling=1, l1_ratio=None,
+                    max_iter=100, multi_class='ovr', n_jobs=1,
+                    penalty='l2', random_state=None,
+                    solver='lbfgs', tol=0.0001, verbose=0,
+                    warm_start=False)
+```
+
 The featurization setting could be improved in the future with a `FeaturizationConfig` object with transformer customizations that could've tailored even better automl accuracies. 
 
 
@@ -99,6 +110,15 @@ Here's an additional screenshot of all teh child runs that were executed by hype
 ![hyperdrive-2](images/6.png)
 The hyperparameters that lead to the most accurate model's confusion matrix is shown below
 ![confusion_matrix](images/7.png)
+
+And `get_metrics()` of the hyperdrive is summarized below, depicting the best model's parameters:
+
+```javascript
+ '--C (Regularization Strength):': 0.09196444981833907,
+ '--max_iter (Max iterations:': 128,
+ '--n_jobs (CPU cores:': 1,
+ 'accuracy': 0.9340659340659341 
+```
 
 This can be improved if we increase the number of runs (especially in situations like mine where I have a beefy cluster from work) and also try out other metrics for primary metric.
 
